@@ -24,6 +24,14 @@ const nextConfig = {
   },
   // Minimize output
   compress: true,
+  // Configure path aliases
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': '.',
+    };
+    return config;
+  },
 };
 
 module.exports = nextConfig;

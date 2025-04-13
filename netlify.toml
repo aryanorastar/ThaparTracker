@@ -7,6 +7,7 @@
   # Enable build optimization
   NEXT_TELEMETRY_DISABLED = "1"
   NODE_ENV = "production"
+  NEXT_PRIVATE_LOCAL_WEBPACK = "true"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
@@ -19,7 +20,7 @@
 
 [functions]
   directory = "netlify/functions"
-  included_files = [".next/**"]
+  included_files = [".next/**", "app/**"]
   node_bundler = "esbuild"
   # Optimize function bundling
   external_node_modules = ["@next/font", "sharp"]
