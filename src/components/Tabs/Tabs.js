@@ -43,10 +43,11 @@ const Tabs = ({ activeTab, onTabChange, filters }) => {
   };
   
   const fetchFromTable = async (tableName) => {
+    const dateField = tableName === 'lost_items' ? 'date_lost' : 'date_found';
+    
     let query = supabase
       .from(tableName)
-      .select('*')
-      .order('created_at', { ascending: false });
+      .select('*');
     
     // Apply filters if they exist
     if (filters.category && filters.category !== '') {
@@ -62,8 +63,6 @@ const Tabs = ({ activeTab, onTabChange, filters }) => {
     }
     
     // Apply date filters if they exist
-    const dateField = tableName === 'lost_items' ? 'date_lost' : 'date_found';
-    
     if (filters.dateFrom && filters.dateFrom !== '') {
       query = query.gte(dateField, filters.dateFrom);
     }
@@ -72,18 +71,31 @@ const Tabs = ({ activeTab, onTabChange, filters }) => {
       query = query.lte(dateField, filters.dateTo);
     }
     
-    // Only show active items
-    query = query.eq('status', 'active');
+    // Only show active items if status field exists
+    if (tableName === 'lost_items' || tableName === 'found_items') {
+      query = query.order('created_at', { ascending: false });
+    }
     
     const { data, error } = await query;
     
-    if (error) throw error;
+    if (error) {
+      console.error(`Error fetching from ${tableName}:`, error);
+      throw error;
+    }
     
+    // Map the data to a consistent format
     return data.map(item => ({
       ...item,
       type: tableName === 'lost_items' ? 'lost' : 'found',
       // Map date field to a common property for consistent handling
-      date: item[dateField]
+      date: item[dateField] || item.date || item.created_at,
+      // Ensure we have these fields even if they're not in the database
+      name: item.item_name || item.name || 'Unnamed Item',
+      description: item.description || '',
+      category: item.category || 'Other',
+      location: item.location || 'Unknown',
+      contact: item.contact_info || item.contact || '',
+      image: item.image_url || item.image || 'https://via.placeholder.com/150'
     }));
   };
 
@@ -120,15 +132,15 @@ const Tabs = ({ activeTab, onTabChange, filters }) => {
           {items.map(item => (
             <ItemCard key={item.id} item={{
               id: item.id,
-              name: item.item_name,
+              name: item.name,
               description: item.description,
               date: item.date,
               location: item.location,
               category: item.category,
-              image: item.image_url,
-              contact: item.contact_info,
+              image: item.image,
+              contact: item.contact,
               type: item.type,
-              status: item.status
+              status: item.status || 'active'
             }} />
           ))}
         </div>

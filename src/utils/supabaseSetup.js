@@ -1,19 +1,19 @@
 import { supabase } from './supabaseClient';
 
-// Function to check if the database tables exist
+// Function to check if the database tables exist and contain data
 export const checkDatabaseTables = async () => {
   console.log('Checking database tables...');
   
   try {
-    // Check if lost_items table exists
-    const { data: lostItemsData, error: lostCheckError } = await supabase
+    // Check if lost_items table exists and get count
+    const { count: lostItemsCount, error: lostCheckError } = await supabase
       .from('lost_items')
-      .select('count(*)', { count: 'exact', head: true });
+      .select('*', { count: 'exact', head: true });
       
-    // Check if found_items table exists
-    const { data: foundItemsData, error: foundCheckError } = await supabase
+    // Check if found_items table exists and get count
+    const { count: foundItemsCount, error: foundCheckError } = await supabase
       .from('found_items')
-      .select('count(*)', { count: 'exact', head: true });
+      .select('*', { count: 'exact', head: true });
     
     // If there are errors about tables not existing
     if (lostCheckError && lostCheckError.code === '42P01') {
@@ -21,7 +21,7 @@ export const checkDatabaseTables = async () => {
       return { 
         success: false, 
         error: lostCheckError,
-        message: 'The lost_items table does not exist. Please run the setup SQL script in Supabase.'
+        message: 'The lost_items table does not exist in your Supabase database.'
       };
     }
     
@@ -30,7 +30,7 @@ export const checkDatabaseTables = async () => {
       return { 
         success: false, 
         error: foundCheckError,
-        message: 'The found_items table does not exist. Please run the setup SQL script in Supabase.'
+        message: 'The found_items table does not exist in your Supabase database.'
       };
     }
     
@@ -46,10 +46,12 @@ export const checkDatabaseTables = async () => {
     }
     
     console.log('Database tables exist and are accessible');
+    console.log(`Found ${lostItemsCount} lost items and ${foundItemsCount} found items`);
+    
     return { 
       success: true,
-      lostItemsCount: lostItemsData?.count || 0,
-      foundItemsCount: foundItemsData?.count || 0
+      lostItemsCount: lostItemsCount || 0,
+      foundItemsCount: foundItemsCount || 0
     };
   } catch (error) {
     console.error('Database check error:', error);
