@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "next-on-netlify",
     "start": "next start",
     "lint": "next lint",
     "netlify-dev": "netlify dev"
@@ -38,6 +39,7 @@
     "eslint": "^8.0.0",
     "eslint-config-next": "^14.0.0",
     "netlify-cli": "^17.38.1",
+    "next-on-netlify": "^3.0.1",
     "typescript": "^5.0.0"
   }
 }

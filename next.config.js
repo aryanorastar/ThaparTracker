@@ -2,7 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: 'standalone',
+  // Change from standalone to export for Netlify compatibility
+  output: 'export',
   images: {
     unoptimized: true,
     domains: ['dbpytnlpgbuzibmnnvks.supabase.co'],
@@ -17,15 +18,6 @@ const nextConfig = {
   distDir: '.next',
   // Ensure trailing slashes are handled correctly
   trailingSlash: false,
-  // Ensure proper handling of API routes
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: '/api/:path*',
-      },
-    ];
-  },
 };
 
 module.exports = nextConfig;

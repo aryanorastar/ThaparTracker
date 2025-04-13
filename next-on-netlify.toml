@@ -1,0 +1,10 @@
+# next-on-netlify.toml
+
+# This file configures the Next.js build process for Netlify deployment
+# See https://github.com/netlify/next-on-netlify for more information
+
+# Specify the publish directory
+publish = ".next"
+
+# Specify the build command
+build_command = "npm run build"
