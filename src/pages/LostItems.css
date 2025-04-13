@@ -1,0 +1,126 @@
+.lost-items-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+header h1 {
+  color: #2a3f65;
+  margin-bottom: 5px;
+}
+
+header p {
+  color: #666;
+  font-size: 18px;
+}
+
+.report-section {
+  background-color: #f8f9fa;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  border-left: 4px solid #2a3f65;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.toggle-form-button {
+  background-color: #2a3f65;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-form-button:hover {
+  background-color: #1e2d4a;
+}
+
+.report-info {
+  margin-top: 10px;
+  color: #666;
+  text-align: center;
+}
+
+.items-table-container {
+  overflow-x: auto;
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.items-table th {
+  background-color: #2a3f65;
+  color: white;
+  text-align: left;
+  padding: 12px 15px;
+}
+
+.items-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.items-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.items-table tr:hover {
+  background-color: #f1f3f5;
+}
+
+.loading, .error-message, .no-items {
+  text-align: center;
+  padding: 40px 0;
+  color: #666;
+}
+
+.error-message {
+  color: #dc3545;
+}
+
+.error-message button {
+  background-color: #2a3f65;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.no-items {
+  background-color: #f8f9fa;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  padding: 20px 0;
+  color: #666;
+  border-top: 1px solid #ddd;
+}
+
+@media (max-width: 768px) {
+  .items-table th, .items-table td {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+}
