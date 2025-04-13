@@ -2,8 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  // Change from standalone to export for Netlify compatibility
-  output: 'export',
+  // Using standalone mode to support API routes
+  output: 'standalone',
   images: {
     unoptimized: true,
     domains: ['dbpytnlpgbuzibmnnvks.supabase.co'],
