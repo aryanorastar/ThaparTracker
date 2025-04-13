@@ -1,16 +1,20 @@
 [build]
   command = "npm run build"
-  publish = "out"
+  publish = ".next/standalone"
 
 [build.environment]
   NODE_VERSION = "18.17.0"
 
-# Handle all routes
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Handle API routes and server-side rendering
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/.netlify/functions/server"
   status = 200
 
 [functions]
   directory = "netlify/functions"
+  included_files = [".next/standalone/**", ".next/static/**"]
   node_bundler = "esbuild"
