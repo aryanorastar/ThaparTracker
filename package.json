@@ -1,0 +1,35 @@
+{
+  "name": "thapar-lost-and-found",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "netlify-dev": "netlify dev"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
+    "autoprefixer": "^10.4.16",
+    "bcryptjs": "^2.4.3",
+    "mongoose": "^8.0.0",
+    "next": "^14.1.0",
+    "next-auth": "^4.24.5",
+    "postcss": "^8.4.31",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.12.0",
+    "tailwindcss": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0",
+    "netlify-cli": "^17.38.1",
+    "typescript": "^5.0.0"
+  }
+}
