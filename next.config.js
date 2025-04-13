@@ -20,7 +20,12 @@ const nextConfig = {
   // Optimize bundle size
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['@fortawesome/free-solid-svg-icons', '@headlessui/react', 'react-icons'],
+    optimizePackageImports: [
+      '@fortawesome/free-solid-svg-icons',
+      '@headlessui/react',
+      'react-icons',
+      'google-map-react'
+    ],
     esmExternals: 'loose'
   },
   // Minimize output
