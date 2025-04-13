@@ -13,6 +13,9 @@
     "netlify-dev": "netlify dev"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@headlessui/react": "^2.2.1",
     "@netlify/functions": "^3.0.4",
     "@netlify/next": "^1.1.0",
