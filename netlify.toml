@@ -1,6 +1,6 @@
 [build]
   command = "npm run build"
-  publish = ".next/standalone"
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "18.17.0"
@@ -16,5 +16,5 @@
 
 [functions]
   directory = "netlify/functions"
-  included_files = [".next/standalone/**", ".next/static/**"]
+  included_files = [".next/**"]
   node_bundler = "esbuild"
