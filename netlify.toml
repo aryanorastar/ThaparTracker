@@ -7,6 +7,7 @@
 
 [build.environment]
   NEXT_STANDALONE = "true"
+  NODE_VERSION = "18.17.0"
 
 # Handle static files
 [[redirects]]
