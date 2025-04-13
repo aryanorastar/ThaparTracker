@@ -21,17 +21,10 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
     optimizePackageImports: ['@fortawesome/free-solid-svg-icons', '@headlessui/react', 'react-icons'],
+    esmExternals: 'loose'
   },
   // Minimize output
   compress: true,
-  // Configure path aliases
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': '.',
-    };
-    return config;
-  },
 };
 
 module.exports = nextConfig;

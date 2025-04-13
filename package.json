@@ -49,6 +49,7 @@
     "eslint-config-next": "^14.0.0",
     "netlify-cli": "^17.38.1",
     "next-on-netlify": "^3.0.1",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "webpack": "^5.99.5"
   }
 }
