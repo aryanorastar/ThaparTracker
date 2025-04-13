@@ -1,21 +1,25 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  publish = ".next/standalone"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
+[build.environment]
+  NEXT_STANDALONE = "true"
+
+# Handle static files
 [[redirects]]
   from = "/_next/static/*"
-  to = "/static/:splat"
+  to = "/_next/static/:splat"
   status = 200
 
+# Handle all other routes
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/___netlify-server-handler"
+  to = "/.netlify/functions/server"
   status = 200
 
 [functions]
-  directory = "netlify/functions"
-  included_files = [".next/standalone/**"]
+  included_files = [".next/standalone/**", ".next/static/**"]
   node_bundler = "esbuild"
