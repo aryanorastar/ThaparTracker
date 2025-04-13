@@ -2,20 +2,16 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  // Using standalone mode to support API routes
-  output: 'standalone',
+  // Static export for Netlify compatibility
+  output: 'export',
+  // Required for static export
   images: {
     unoptimized: true,
-    domains: ['dbpytnlpgbuzibmnnvks.supabase.co'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
   },
-  // Netlify specific configuration
-  distDir: '.next',
+  // Disable server-side features for static export
+  experimental: {
+    appDir: true,
+  },
   // Ensure trailing slashes are handled correctly
   trailingSlash: false,
 };
