@@ -6,11 +6,10 @@
     "node": ">=18.17.0"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "netlify-dev": "netlify dev"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "@apollo/client": "^3.13.7",
@@ -18,28 +17,24 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@headlessui/react": "^2.2.1",
-    "@netlify/functions": "^3.0.4",
-    "@netlify/next": "^1.1.0",
-    "@netlify/plugin-nextjs": "^4.41.3",
     "@supabase/supabase-js": "^2.49.4",
     "autoprefixer": "^10.4.16",
     "axios": "^1.8.4",
     "bcryptjs": "^2.4.3",
-    "critters": "^0.0.23",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "google-map-react": "^2.2.1",
     "mongoose": "^8.0.0",
-    "next": "^14.1.0",
-    "next-auth": "^4.24.5",
     "postcss": "^8.4.31",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.55.0",
     "react-hot-toast": "^2.5.2",
     "react-icons": "^4.12.0",
-    "sharp": "^0.34.1",
+    "react-router-dom": "^6.22.3",
+    "react-scripts": "5.0.1",
     "tailwindcss": "^3.3.0",
+    "web-vitals": "^3.5.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {
@@ -48,10 +43,19 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "eslint": "^8.0.0",
-    "eslint-config-next": "^14.0.0",
     "netlify-cli": "^17.38.1",
-    "next-on-netlify": "^3.0.1",
-    "typescript": "^5.0.0",
-    "webpack": "^5.99.5"
+    "typescript": "^4.9.5"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

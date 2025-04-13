@@ -1,29 +1,7 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  publish = "build"
 
 [build.environment]
   NODE_VERSION = "18.17.0"
-  # Enable build optimization
-  NEXT_TELEMETRY_DISABLED = "1"
   NODE_ENV = "production"
-  NEXT_PRIVATE_LOCAL_WEBPACK = "true"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-# Handle API routes and server-side rendering
-[[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/server"
-  status = 200
-
-[functions]
-  directory = "netlify/functions"
-  included_files = [".next/**", "app/**"]
-  node_bundler = "esbuild"
-  # Optimize function bundling
-  external_node_modules = ["@next/font", "sharp"]
-  # Increase build performance
-  [functions.build]
-    minify = true
