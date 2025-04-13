@@ -1,46 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
+
+// Import components
+import Header from './components/Header/Header';
+import Home from './pages/Home';
+import ItemDetails from './pages/ItemDetails';
+import MyListings from './pages/MyListings';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
-          <h1>Thapar University Lost and Found</h1>
-          <p>
-            Find your lost items or report found items
-          </p>
-        </header>
+        <Header />
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/item/:id" element={<ItemDetails />} />
+            <Route path="/my-listings" element={<MyListings />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <footer>
-          <p>© {new Date().getFullYear()} Thapar University Lost and Found</p>
+          <p> {new Date().getFullYear()} Thapar University Lost and Found</p>
         </footer>
       </div>
     </Router>
-  );
-}
-
-function Home() {
-  return (
-    <div>
-      <h2>Welcome to the Lost and Found Portal</h2>
-      <p>This application helps Thapar University students find their lost items and report found items.</p>
-    </div>
-  );
-}
-
-function NotFound() {
-  return (
-    <div>
-      <h2>404 - Page Not Found</h2>
-      <p>The page you are looking for does not exist.</p>
-    </div>
   );
 }
 
