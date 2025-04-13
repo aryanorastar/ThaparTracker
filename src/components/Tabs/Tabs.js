@@ -54,21 +54,26 @@ const Tabs = ({ activeTab, onTabChange, filters }) => {
     }
     
     if (filters.location && filters.location !== '') {
-      query = query.eq('location', filters.location);
+      query = query.ilike('location', `%${filters.location}%`);
     }
     
     if (filters.searchQuery && filters.searchQuery !== '') {
-      query = query.ilike('item_name', `%${filters.searchQuery}%`);
+      query = query.or(`item_name.ilike.%${filters.searchQuery}%,description.ilike.%${filters.searchQuery}%`);
     }
     
     // Apply date filters if they exist
+    const dateField = tableName === 'lost_items' ? 'date_lost' : 'date_found';
+    
     if (filters.dateFrom && filters.dateFrom !== '') {
-      query = query.gte('date', filters.dateFrom);
+      query = query.gte(dateField, filters.dateFrom);
     }
     
     if (filters.dateTo && filters.dateTo !== '') {
-      query = query.lte('date', filters.dateTo);
+      query = query.lte(dateField, filters.dateTo);
     }
+    
+    // Only show active items
+    query = query.eq('status', 'active');
     
     const { data, error } = await query;
     
@@ -76,7 +81,9 @@ const Tabs = ({ activeTab, onTabChange, filters }) => {
     
     return data.map(item => ({
       ...item,
-      type: tableName === 'lost_items' ? 'lost' : 'found'
+      type: tableName === 'lost_items' ? 'lost' : 'found',
+      // Map date field to a common property for consistent handling
+      date: item[dateField]
     }));
   };
 
@@ -120,7 +127,8 @@ const Tabs = ({ activeTab, onTabChange, filters }) => {
               category: item.category,
               image: item.image_url,
               contact: item.contact_info,
-              type: item.type
+              type: item.type,
+              status: item.status
             }} />
           ))}
         </div>
