@@ -25,6 +25,7 @@
     "autoprefixer": "^10.4.16",
     "axios": "^1.8.4",
     "bcryptjs": "^2.4.3",
+    "critters": "^0.0.23",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "google-map-react": "^2.2.1",

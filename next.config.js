@@ -19,7 +19,6 @@ const nextConfig = {
   trailingSlash: false,
   // Optimize bundle size
   experimental: {
-    optimizeCss: true,
     optimizePackageImports: [
       '@fortawesome/free-solid-svg-icons',
       '@headlessui/react',
