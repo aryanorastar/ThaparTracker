@@ -1,7 +1,85 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../../utils/supabaseClient';
+import ItemCard from '../ItemCard/ItemCard';
 import './Tabs.css';
 
-const Tabs = ({ activeTab, onTabChange }) => {
+const Tabs = ({ activeTab, onTabChange, filters }) => {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchItems();
+  }, [activeTab, filters]);
+
+  const fetchItems = async () => {
+    try {
+      setLoading(true);
+      
+      // Determine which table to query based on active tab
+      let tableName;
+      if (activeTab === 'all') {
+        // For 'all' tab, we'll need to query both tables and combine results
+        const [lostResult, foundResult] = await Promise.all([
+          fetchFromTable('lost_items'),
+          fetchFromTable('found_items')
+        ]);
+        
+        // Combine and sort by date (newest first)
+        const combinedItems = [...(lostResult || []), ...(foundResult || [])];
+        setItems(combinedItems.sort((a, b) => new Date(b.date) - new Date(a.date)));
+        setLoading(false);
+        return;
+      } else {
+        tableName = activeTab === 'lost' ? 'lost_items' : 'found_items';
+      }
+      
+      const result = await fetchFromTable(tableName);
+      setItems(result || []);
+    } catch (error) {
+      console.error('Error fetching items:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const fetchFromTable = async (tableName) => {
+    let query = supabase
+      .from(tableName)
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    // Apply filters if they exist
+    if (filters.category && filters.category !== '') {
+      query = query.eq('category', filters.category);
+    }
+    
+    if (filters.location && filters.location !== '') {
+      query = query.eq('location', filters.location);
+    }
+    
+    if (filters.searchQuery && filters.searchQuery !== '') {
+      query = query.ilike('item_name', `%${filters.searchQuery}%`);
+    }
+    
+    // Apply date filters if they exist
+    if (filters.dateFrom && filters.dateFrom !== '') {
+      query = query.gte('date', filters.dateFrom);
+    }
+    
+    if (filters.dateTo && filters.dateTo !== '') {
+      query = query.lte('date', filters.dateTo);
+    }
+    
+    const { data, error } = await query;
+    
+    if (error) throw error;
+    
+    return data.map(item => ({
+      ...item,
+      type: tableName === 'lost_items' ? 'lost' : 'found'
+    }));
+  };
+
   return (
     <div className="tabs-container">
       <div className="tabs">
@@ -24,6 +102,34 @@ const Tabs = ({ activeTab, onTabChange }) => {
           Found Items
         </button>
       </div>
+      
+      {loading ? (
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading items...</p>
+        </div>
+      ) : items.length > 0 ? (
+        <div className="items-grid">
+          {items.map(item => (
+            <ItemCard key={item.id} item={{
+              id: item.id,
+              name: item.item_name,
+              description: item.description,
+              date: item.date,
+              location: item.location,
+              category: item.category,
+              image: item.image_url,
+              contact: item.contact_info,
+              type: item.type
+            }} />
+          ))}
+        </div>
+      ) : (
+        <div className="no-items">
+          <h3>No items found</h3>
+          <p>Try adjusting your filters or check back later.</p>
+        </div>
+      )}
     </div>
   );
 };
