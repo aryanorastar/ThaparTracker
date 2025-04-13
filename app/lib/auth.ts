@@ -65,7 +65,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
-  secret: process.env.NEXTAUTH_SECRET || 'thapar-lost-found-secret',
+  secret: process.env.NEXTAUTH_SECRET || 'thapar_lost_and_found_secure_secret_key_2025',
 };
 
 export default authOptions;

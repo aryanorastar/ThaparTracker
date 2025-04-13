@@ -5,9 +5,27 @@ const nextConfig = {
   output: 'standalone',
   images: {
     unoptimized: true,
+    domains: ['dbpytnlpgbuzibmnnvks.supabase.co'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
   },
-  // Add this to help with Netlify deployment
+  // Netlify specific configuration
   distDir: '.next',
+  // Ensure trailing slashes are handled correctly
+  trailingSlash: false,
+  // Ensure proper handling of API routes
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: '/api/:path*',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
