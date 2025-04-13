@@ -1,0 +1,23 @@
+[dev]
+  command = "npm run dev"
+  port = 3000
+  targetPort = 3000
+  publish = ".next"
+  framework = "nextjs"
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+  
+[functions]
+  node_bundler = "esbuild"
+  
+[[redirects]]
+  from = "/_next/static/*"
+  to = "/static/:splat"
+  status = 200
+  
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/___netlify-server-handler"
+  status = 200
