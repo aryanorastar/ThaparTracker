@@ -4,10 +4,9 @@ import SearchFilters from '../components/SearchFilters/SearchFilters';
 import ItemForm from '../components/ItemForm/ItemForm';
 import { testSupabaseConnection, setupSupabaseTables } from '../utils/testSupabase';
 
-const Home = () => {
+const Home = ({ dbStatus }) => {
   const [activeTab, setActiveTab] = useState('all');
   const [showForm, setShowForm] = useState(false);
-  const [connectionStatus, setConnectionStatus] = useState({ tested: false, success: false, message: '' });
   const [filters, setFilters] = useState({
     category: '',
     dateFrom: '',
@@ -15,29 +14,6 @@ const Home = () => {
     location: '',
     searchQuery: '',
   });
-
-  useEffect(() => {
-    // Test Supabase connection when component mounts
-    const checkConnection = async () => {
-      const result = await testSupabaseConnection();
-      if (result.success) {
-        const tablesResult = await setupSupabaseTables();
-        setConnectionStatus({ 
-          tested: true, 
-          success: result.success && tablesResult.success,
-          message: tablesResult.success ? 'Connected to Supabase successfully!' : tablesResult.message || 'Tables not properly configured'
-        });
-      } else {
-        setConnectionStatus({ 
-          tested: true, 
-          success: false, 
-          message: result.error?.message || 'Failed to connect to Supabase'
-        });
-      }
-    };
-    
-    checkConnection();
-  }, []);
 
   const handleFilterChange = (newFilters) => {
     setFilters({ ...filters, ...newFilters });
@@ -55,9 +31,9 @@ const Home = () => {
         <h1>Thapar University Lost and Found</h1>
         <p>Find your lost items or help others find theirs</p>
         
-        {connectionStatus.tested && (
-          <div className={`connection-status ${connectionStatus.success ? 'success' : 'error'}`}>
-            {connectionStatus.message}
+        {dbStatus && dbStatus.checked && (
+          <div className={`connection-status ${dbStatus.success ? 'success' : 'error'}`}>
+            {dbStatus.message}
           </div>
         )}
         
@@ -73,7 +49,24 @@ const Home = () => {
 
       <SearchFilters filters={filters} onFilterChange={handleFilterChange} />
       
-      <Tabs activeTab={activeTab} onTabChange={setActiveTab} filters={filters} />
+      {dbStatus && dbStatus.success ? (
+        <Tabs activeTab={activeTab} onTabChange={setActiveTab} filters={filters} />
+      ) : (
+        <div className="db-error-message">
+          <h3>Database Connection Issue</h3>
+          <p>We're unable to display items at this time. Please try again later.</p>
+          <p>If you're an administrator, please ensure the database tables are set up correctly.</p>
+          <div className="setup-instructions">
+            <h4>Setup Instructions:</h4>
+            <ol>
+              <li>Log in to your Supabase dashboard</li>
+              <li>Navigate to the SQL Editor</li>
+              <li>Run the SQL script from the <code>supabase-setup.sql</code> file</li>
+              <li>Refresh this page</li>
+            </ol>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
