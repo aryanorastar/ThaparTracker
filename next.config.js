@@ -6,6 +6,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Add this to help with Netlify deployment
+  distDir: '.next',
 };
 
 module.exports = nextConfig;
