@@ -17,6 +17,13 @@ const nextConfig = {
   },
   // Ensure trailing slashes are handled correctly
   trailingSlash: false,
+  // Optimize bundle size
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: ['@fortawesome/free-solid-svg-icons', '@headlessui/react', 'react-icons'],
+  },
+  // Minimize output
+  compress: true,
 };
 
 module.exports = nextConfig;
