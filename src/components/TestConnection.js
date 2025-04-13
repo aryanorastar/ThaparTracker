@@ -23,11 +23,12 @@ const TestConnection = () => {
       setConnectionStatus('Testing basic Supabase connection...');
       
       try {
-        const { data: healthCheck, error: healthError } = await supabase.from('_rpc').select('*').limit(1);
+        // Use a simple health check that doesn't require a specific table
+        const { data, error } = await supabase.auth.getSession();
         
-        if (healthError) {
-          setDetailedStatus(prev => ({ ...prev, basicConnection: { success: false, error: healthError.message } }));
-          throw new Error(`Basic connection error: ${healthError.message}`);
+        if (error) {
+          setDetailedStatus(prev => ({ ...prev, basicConnection: { success: false, error: error.message } }));
+          throw new Error(`Basic connection error: ${error.message}`);
         }
         
         setDetailedStatus(prev => ({ ...prev, basicConnection: { success: true } }));

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import TestConnection from './components/TestConnection';
+import LostItemsTable from './pages/LostItemsTable';
 import { supabase } from './utils/supabaseClient';
 
 function App() {
@@ -61,7 +61,7 @@ function App() {
 
   return (
     <div className="App">
-      <TestConnection />
+      <LostItemsTable />
     </div>
   );
 }
