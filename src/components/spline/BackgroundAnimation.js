@@ -3,6 +3,7 @@ import Spline from '@splinetool/react-spline';
 
 const BackgroundAnimation = ({ className = '', intensity = 'light' }) => {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   
   // Different Spline scenes based on the animation intensity
   const sceneUrls = {
@@ -10,6 +11,19 @@ const BackgroundAnimation = ({ className = '', intensity = 'light' }) => {
     medium: 'https://prod.spline.design/pWr7HJtVzCFGmLnK/scene.splinecode',
     heavy: 'https://prod.spline.design/8cNJmVUEFzDQyGT4/scene.splinecode'
   };
+
+  const handleError = () => {
+    console.error("Failed to load Spline scene for BackgroundAnimation");
+    setError(true);
+    setLoading(false);
+  };
+
+  // Fallback element when Spline fails to load
+  if (error) {
+    return (
+      <div className={`fallback-background ${intensity} ${className}`}></div>
+    );
+  }
 
   return (
     <div className={`absolute inset-0 -z-10 overflow-hidden ${className}`}>
@@ -23,6 +37,7 @@ const BackgroundAnimation = ({ className = '', intensity = 'light' }) => {
         <Spline 
           scene={sceneUrls[intensity]} 
           onLoad={() => setLoading(false)}
+          onError={handleError}
         />
       </div>
     </div>

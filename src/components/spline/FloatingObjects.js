@@ -3,6 +3,7 @@ import Spline from '@splinetool/react-spline';
 
 const FloatingObjects = ({ className = '', variant = 'items' }) => {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   
   // Different Spline scenes based on the variant
   const sceneUrls = {
@@ -10,6 +11,21 @@ const FloatingObjects = ({ className = '', variant = 'items' }) => {
     map: 'https://prod.spline.design/KLmn7xCVPFDEwz5r/scene.splinecode',
     search: 'https://prod.spline.design/q9XJfvYU4DRGHtpW/scene.splinecode'
   };
+
+  const handleError = () => {
+    console.error("Failed to load Spline scene for FloatingObjects");
+    setError(true);
+    setLoading(false);
+  };
+
+  // Fallback element when Spline fails to load
+  if (error) {
+    return (
+      <div className={`floating-object-fallback ${variant} ${className}`}>
+        <div className="floating-animation"></div>
+      </div>
+    );
+  }
 
   return (
     <div className={`relative ${className}`}>
@@ -26,6 +42,7 @@ const FloatingObjects = ({ className = '', variant = 'items' }) => {
         <Spline 
           scene={sceneUrls[variant]} 
           onLoad={() => setLoading(false)}
+          onError={handleError}
         />
       </div>
     </div>

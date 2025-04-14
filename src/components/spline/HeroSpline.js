@@ -3,6 +3,7 @@ import Spline from '@splinetool/react-spline';
 
 const HeroSpline = ({ className = '' }) => {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -16,6 +17,23 @@ const HeroSpline = ({ className = '' }) => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  const handleError = () => {
+    console.error("Failed to load Spline scene");
+    setError(true);
+    setLoading(false);
+  };
+
+  // Use a simpler scene for better performance
+  const sceneUrl = isMobile 
+    ? "https://prod.spline.design/tz4Pck6mUCQPGTFN/scene.splinecode" 
+    : "https://prod.spline.design/tz4Pck6mUCQPGTFN/scene.splinecode";
+
+  if (error) {
+    return (
+      <div className={`fallback-hero-bg ${className}`}></div>
+    );
+  }
+
   return (
     <div className={`relative ${className}`}>
       {loading && (
@@ -25,19 +43,11 @@ const HeroSpline = ({ className = '' }) => {
       )}
       
       <div className={`${loading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
-        {isMobile ? (
-          // Simplified version for mobile
-          <Spline 
-            scene="https://prod.spline.design/6PrtvM5QVOfQzQYV/scene.splinecode" 
-            onLoad={() => setLoading(false)}
-          />
-        ) : (
-          // Full version for desktop
-          <Spline 
-            scene="https://prod.spline.design/tz4Pck6mUCQPGTFN/scene.splinecode" 
-            onLoad={() => setLoading(false)}
-          />
-        )}
+        <Spline 
+          scene={sceneUrl}
+          onLoad={() => setLoading(false)}
+          onError={handleError}
+        />
       </div>
     </div>
   );

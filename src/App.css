@@ -1,33 +1,3 @@
-.App {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: #f8fafc;
-  position: relative;
-  overflow-x: hidden;
-}
-
-main {
-  flex: 1;
-  padding: 2rem 1rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-  position: relative;
-  z-index: 10;
-}
-
-footer {
-  background: linear-gradient(to right, #1e3a8a, #312e81);
-  padding: 3rem 1.5rem;
-  margin-top: auto;
-  text-align: center;
-  color: #f3f4f6;
-  font-size: 0.875rem;
-  position: relative;
-  z-index: 10;
-}
-
 /* Home page specific styles */
 .home-container {
   display: flex;
@@ -509,6 +479,125 @@ footer {
   z-index: 0;
 }
 
+/* Fallback elements for when Spline fails to load */
+.spline-loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fallback-background {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
+  opacity: 0.5;
+}
+
+.fallback-background.medium {
+  background: linear-gradient(135deg, #dbeafe, #c7d2fe);
+  opacity: 0.6;
+}
+
+.fallback-background.heavy {
+  background: linear-gradient(135deg, #bfdbfe, #a5b4fc);
+  opacity: 0.7;
+}
+
+.fallback-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1e40af, #4338ca);
+  opacity: 0.3;
+}
+
+.floating-object-fallback {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floating-object-fallback.items::before {
+  content: '';
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  background-color: rgba(59, 130, 246, 0.2);
+  border-radius: 50%;
+  animation: float 3s ease-in-out infinite;
+}
+
+.floating-object-fallback.map::before {
+  content: '';
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  background-color: rgba(99, 102, 241, 0.2);
+  border-radius: 15%;
+  animation: float 3s ease-in-out infinite;
+}
+
+.floating-object-fallback.search::before {
+  content: '';
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  background-color: rgba(79, 70, 229, 0.2);
+  border-radius: 30%;
+  animation: float 3s ease-in-out infinite;
+}
+
+.floating-animation {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.floating-animation::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.loading-animation {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(transparent, rgba(255, 255, 255, 0.5));
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.3;
+  }
+}
+
 /* Card styles */
 .card {
   background-color: white;
@@ -637,4 +726,35 @@ footer {
   .contact-buttons {
     flex-direction: column;
   }
+}
+
+/* Base App, main, and footer styles */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc;
+  position: relative;
+  overflow-x: hidden;
+}
+
+main {
+  flex: 1;
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+footer {
+  background: linear-gradient(to right, #1e3a8a, #312e81);
+  padding: 3rem 1.5rem;
+  margin-top: auto;
+  text-align: center;
+  color: #f3f4f6;
+  font-size: 0.875rem;
+  position: relative;
+  z-index: 10;
 }
