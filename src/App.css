@@ -417,19 +417,48 @@
   color: white;
 }
 
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  border-top-color: white;
-  animation: spin 1s ease-in-out infinite;
+.loading-animation-container {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 2rem;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+.loading-circle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  top: 30px;
+  left: 30px;
+  transform-origin: center;
+  animation: loading-circle 1.5s infinite ease-in-out;
+}
+
+.loading-circle.delay-1 {
+  animation-delay: 0.2s;
+}
+
+.loading-circle.delay-2 {
+  animation-delay: 0.4s;
+}
+
+@keyframes loading-circle {
+  0% {
+    transform: scale(0);
+    opacity: 1;
   }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.loading-text {
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
 }
 
 /* Database error screen */
@@ -445,156 +474,295 @@
   text-align: center;
 }
 
-.db-error-screen h2 {
+.error-icon-container {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 2rem;
+}
+
+.error-icon {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+.error-icon::before,
+.error-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  height: 4px;
+  background-color: rgba(239, 68, 68, 0.8);
+  border-radius: 2px;
+}
+
+.error-icon::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.error-icon::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.error-title {
   font-size: 2rem;
+  font-weight: 700;
   margin-bottom: 1rem;
 }
 
-.db-error-screen p {
-  margin-bottom: 1.5rem;
-  max-width: 600px;
+.error-message {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: rgba(219, 234, 254, 0.9);
 }
 
-.db-error-screen button {
+.error-help {
+  margin-bottom: 2rem;
+  color: rgba(219, 234, 254, 0.7);
+}
+
+.retry-button {
   background-color: white;
   color: #1e40af;
   font-weight: 600;
   padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 1rem;
 }
 
-.db-error-screen button:hover {
+.retry-button:hover {
   background-color: #f3f4f6;
   transform: translateY(-2px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-/* 3D elements and animations */
-.spline-container {
+/* Background Animation */
+.background-animation {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  overflow: hidden;
+  z-index: -10;
 }
 
-/* Fallback elements for when Spline fails to load */
-.spline-loading {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.fallback-background {
+.animated-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
-  opacity: 0.5;
-}
-
-.fallback-background.medium {
-  background: linear-gradient(135deg, #dbeafe, #c7d2fe);
-  opacity: 0.6;
-}
-
-.fallback-background.heavy {
-  background: linear-gradient(135deg, #bfdbfe, #a5b4fc);
+  background: linear-gradient(135deg, #dbeafe, #e0e7ff);
   opacity: 0.7;
 }
 
-.fallback-hero-bg {
+.animated-shapes {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #1e40af, #4338ca);
-  opacity: 0.3;
+  overflow: hidden;
 }
 
-.floating-object-fallback {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.floating-object-fallback.items::before {
-  content: '';
+.shape {
   position: absolute;
-  width: 60%;
-  height: 60%;
-  background-color: rgba(59, 130, 246, 0.2);
   border-radius: 50%;
-  animation: float 3s ease-in-out infinite;
+  filter: blur(40px);
+  opacity: 0.5;
+  animation: float 15s infinite ease-in-out;
 }
 
-.floating-object-fallback.map::before {
-  content: '';
-  position: absolute;
-  width: 60%;
-  height: 60%;
-  background-color: rgba(99, 102, 241, 0.2);
-  border-radius: 15%;
-  animation: float 3s ease-in-out infinite;
+.shape-1 {
+  width: 300px;
+  height: 300px;
+  background-color: rgba(59, 130, 246, 0.3);
+  top: 10%;
+  left: -100px;
+  animation-delay: 0s;
 }
 
-.floating-object-fallback.search::before {
-  content: '';
-  position: absolute;
-  width: 60%;
-  height: 60%;
-  background-color: rgba(79, 70, 229, 0.2);
-  border-radius: 30%;
-  animation: float 3s ease-in-out infinite;
+.shape-2 {
+  width: 400px;
+  height: 400px;
+  background-color: rgba(99, 102, 241, 0.3);
+  top: 40%;
+  right: -150px;
+  animation-delay: 2s;
 }
 
-.floating-animation {
-  width: 100%;
-  height: 100%;
-  position: relative;
+.shape-3 {
+  width: 250px;
+  height: 250px;
+  background-color: rgba(79, 70, 229, 0.3);
+  bottom: -100px;
+  left: 30%;
+  animation-delay: 4s;
 }
 
-.floating-animation::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70%;
-  height: 70%;
-  border-radius: 50%;
-  border: 2px solid rgba(59, 130, 246, 0.3);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-.loading-animation {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: conic-gradient(transparent, rgba(255, 255, 255, 0.5));
-  animation: rotate 2s linear infinite;
+.shape-4 {
+  width: 200px;
+  height: 200px;
+  background-color: rgba(124, 58, 237, 0.3);
+  top: -50px;
+  right: 20%;
+  animation-delay: 6s;
 }
 
 @keyframes float {
   0%, 100% {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(30px) scale(1.05);
   }
 }
 
-@keyframes pulse {
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.9), rgba(79, 70, 229, 0.9));
+  color: white;
+  padding: 5rem 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 300;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.hero-button {
+  display: inline-block;
+  padding: 0.875rem 2rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.hero-button.primary {
+  background-color: white;
+  color: #2563eb;
+}
+
+.hero-button.primary:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.hero-button.secondary {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  backdrop-filter: blur(4px);
+}
+
+.hero-button.secondary:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.hero-decoration {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.floating-object {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  animation: morph 8s infinite ease-in-out;
+}
+
+.floating-object:nth-child(1) {
+  top: 20%;
+  right: 10%;
+  animation-delay: 0s;
+}
+
+.floating-object:nth-child(2) {
+  bottom: 10%;
+  left: 15%;
+  width: 100px;
+  height: 100px;
+  animation-delay: 2s;
+}
+
+.floating-object:nth-child(3) {
+  top: 10%;
+  left: 20%;
+  width: 80px;
+  height: 80px;
+  animation-delay: 4s;
+}
+
+@keyframes morph {
   0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.7;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  }
+  25% {
+    border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
   }
   50% {
-    transform: translate(-50%, -50%) scale(1.1);
-    opacity: 0.3;
+    border-radius: 30% 30% 70% 70% / 70% 30% 30% 70%;
+  }
+  75% {
+    border-radius: 70% 70% 30% 30% / 30% 70% 70% 30%;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.125rem;
+  }
+  
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .hero-button {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .shape {
+    filter: blur(30px);
   }
 }
 

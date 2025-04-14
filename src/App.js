@@ -1,45 +1,7 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import LostItemsTable from './pages/LostItemsTable';
 import { supabase } from './utils/supabaseClient';
-// Import Spline components with error boundaries
-const HeroSpline = React.lazy(() => import('./components/spline/HeroSpline'));
-const FloatingObjects = React.lazy(() => import('./components/spline/FloatingObjects'));
-const BackgroundAnimation = React.lazy(() => import('./components/spline/BackgroundAnimation'));
-
-// Error boundary component
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.error("Spline component error:", error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback || null;
-    }
-    return this.props.children;
-  }
-}
-
-// Wrapper for Spline components with fallback
-const SafeSpline = ({ component: Component, fallback, ...props }) => {
-  return (
-    <ErrorBoundary fallback={fallback}>
-      <Suspense fallback={fallback || <div className="spline-loading"></div>}>
-        <Component {...props} />
-      </Suspense>
-    </ErrorBoundary>
-  );
-};
 
 function App() {
   const [dbStatus, setDbStatus] = useState({ checked: false, success: false, message: '' });
@@ -80,11 +42,11 @@ function App() {
   if (loading) {
     return (
       <div className="loading-screen bg-gradient-to-r from-blue-900 to-indigo-900 flex flex-col items-center justify-center min-h-screen">
-        <div className="relative w-24 h-24 mb-8">
-          {/* Simple loading animation instead of Spline */}
-          <div className="loading-animation"></div>
+        <div className="loading-animation-container w-24 h-24 mb-8">
+          <div className="loading-circle"></div>
+          <div className="loading-circle delay-1"></div>
+          <div className="loading-circle delay-2"></div>
         </div>
-        <div className="loading-spinner"></div>
         <p className="text-white text-xl mt-6 font-light">Connecting to database...</p>
       </div>
     );
@@ -93,8 +55,7 @@ function App() {
   if (!dbStatus.success) {
     return (
       <div className="db-error-screen bg-gradient-to-r from-blue-900 to-indigo-900 flex flex-col items-center justify-center min-h-screen p-6 text-center">
-        <div className="relative w-24 h-24 mb-8 opacity-50">
-          {/* Simple error icon instead of Spline */}
+        <div className="error-icon-container relative w-24 h-24 mb-8 opacity-50">
           <div className="error-icon"></div>
         </div>
         <h2 className="text-white text-3xl font-bold mb-4">Database Connection Error</h2>
@@ -112,28 +73,31 @@ function App() {
 
   return (
     <div className="App relative">
-      {/* Background Animation with fallback */}
-      <SafeSpline 
-        component={BackgroundAnimation} 
-        intensity="light"
-        fallback={<div className="fallback-background"></div>}
-      />
+      {/* Background Animation */}
+      <div className="background-animation absolute inset-0 -z-10">
+        <div className="animated-gradient"></div>
+        <div className="animated-shapes">
+          <div className="shape shape-1"></div>
+          <div className="shape shape-2"></div>
+          <div className="shape shape-3"></div>
+          <div className="shape shape-4"></div>
+        </div>
+      </div>
       
       {/* Hero Section */}
       <div className="hero-section relative overflow-hidden bg-gradient-to-r from-blue-700/90 to-indigo-900/90 text-white py-20 px-4 rounded-xl shadow-2xl mb-12">
-        <div className="absolute inset-0 -z-10">
-          <SafeSpline 
-            component={HeroSpline}
-            fallback={<div className="fallback-hero-bg"></div>}
-          />
-        </div>
-        <div className="container mx-auto text-center relative z-10">
+        <div className="hero-content container mx-auto text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
             Thapar University Lost & Found
           </h1>
           <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto font-light">
             A platform for Thapar University students and staff to report and find lost items on campus.
           </p>
+        </div>
+        <div className="hero-decoration absolute inset-0 -z-10">
+          <div className="floating-object"></div>
+          <div className="floating-object delay-1"></div>
+          <div className="floating-object delay-2"></div>
         </div>
       </div>
       
