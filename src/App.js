@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import LostItemsTable from './pages/LostItemsTable';
 import ImageGallery from './components/ImageGallery';
+import Footer from './components/Footer';
 import { supabase } from './utils/supabaseClient';
 
 function App() {
@@ -268,6 +269,9 @@ function App() {
       
       {/* Items Table */}
       <LostItemsTable items={filteredItems} />
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
