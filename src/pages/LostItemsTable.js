@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import './LostItemsTable.css';
 
-const LostItemsTable = () => {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+const LostItemsTable = ({ items: propItems }) => {
+  const [items, setItems] = useState(propItems || []);
+  const [loading, setLoading] = useState(!propItems);
   const [error, setError] = useState(null);
   const [showReportForm, setShowReportForm] = useState(false);
   
@@ -22,8 +22,13 @@ const LostItemsTable = () => {
   });
   
   useEffect(() => {
-    fetchLostItems();
-  }, [sortField, sortDirection, filters]);
+    if (propItems) {
+      setItems(propItems);
+      setLoading(false);
+    } else {
+      fetchLostItems();
+    }
+  }, [propItems, sortField, sortDirection, filters]);
 
   const fetchLostItems = async () => {
     try {

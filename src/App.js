@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import LostItemsTable from './pages/LostItemsTable';
+import ImageGallery from './components/ImageGallery';
 import { supabase } from './utils/supabaseClient';
 
 function App() {
   const [dbStatus, setDbStatus] = useState({ checked: false, success: false, message: '' });
   const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     const checkDatabase = async () => {
       try {
         // Check if the items table exists
-        const { count, error } = await supabase
+        const { data, count, error } = await supabase
           .from('items')
-          .select('*', { count: 'exact', head: true });
+          .select('*', { count: 'exact' });
         
         if (error) {
           throw error;
         }
         
+        setItems(data || []);
         setDbStatus({
           checked: true,
           success: true,
@@ -101,7 +104,9 @@ function App() {
         </div>
       </div>
       
-      <LostItemsTable />
+      <ImageGallery items={items} />
+      
+      <LostItemsTable items={items} />
     </div>
   );
 }

@@ -1,0 +1,13 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#f0fdf4"/>
+  <rect x="120" y="80" width="40" height="140" rx="2" fill="#16a34a"/>
+  <rect x="165" y="80" width="30" height="140" rx="2" fill="#4ade80"/>
+  <rect x="200" y="80" width="50" height="140" rx="2" fill="#22c55e"/>
+  <rect x="255" y="80" width="25" height="140" rx="2" fill="#15803d"/>
+  <line x1="120" y1="80" x2="120" y2="220" stroke="#064e3b" stroke-width="2"/>
+  <line x1="160" y1="80" x2="160" y2="220" stroke="#064e3b" stroke-width="2"/>
+  <line x1="195" y1="80" x2="195" y2="220" stroke="#064e3b" stroke-width="2"/>
+  <line x1="250" y1="80" x2="250" y2="220" stroke="#064e3b" stroke-width="2"/>
+  <line x1="280" y1="80" x2="280" y2="220" stroke="#064e3b" stroke-width="2"/>
+  <text x="200" y="250" font-family="Arial" font-size="16" fill="#15803d" text-anchor="middle">Books</text>
+</svg>

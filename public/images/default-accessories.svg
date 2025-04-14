@@ -1,0 +1,9 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#fff1f2"/>
+  <circle cx="200" cy="130" r="70" fill="#fecdd3" stroke="#fb7185" stroke-width="3"/>
+  <circle cx="200" cy="130" r="50" fill="#fda4af" stroke="#f43f5e" stroke-width="2"/>
+  <circle cx="200" cy="130" r="15" fill="#fecdd3"/>
+  <path d="M200,200 L200,230" stroke="#e11d48" stroke-width="4"/>
+  <path d="M180,210 L220,210" stroke="#e11d48" stroke-width="4"/>
+  <text x="200" y="260" font-family="Arial" font-size="16" fill="#e11d48" text-anchor="middle">Accessories</text>
+</svg>
