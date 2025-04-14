@@ -4,9 +4,6 @@ import './ImageGallery.css';
 const ImageGallery = ({ items }) => {
   const [selectedImage, setSelectedImage] = useState(null);
 
-  // Filter items that have image_url
-  const itemsWithImages = items.filter(item => item.image_url);
-
   // Function to open the image modal
   const openImageModal = (item) => {
     setSelectedImage(item);
@@ -37,7 +34,7 @@ const ImageGallery = ({ items }) => {
 
   return (
     <div className="image-gallery-container">
-      <h2 className="gallery-title">Recently Lost Items</h2>
+      <h2 className="gallery-title">Lost Items Gallery</h2>
       
       <div className="image-gallery">
         {items.length > 0 ? (
@@ -66,7 +63,7 @@ const ImageGallery = ({ items }) => {
           ))
         ) : (
           <div className="no-items-message">
-            <p>No items to display</p>
+            <p>No items match your search criteria</p>
           </div>
         )}
       </div>

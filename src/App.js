@@ -8,6 +8,14 @@ function App() {
   const [dbStatus, setDbStatus] = useState({ checked: false, success: false, message: '' });
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [searchParams, setSearchParams] = useState({
+    searchQuery: '',
+    category: '',
+    dateFrom: '',
+    dateTo: '',
+    location: ''
+  });
 
   useEffect(() => {
     const checkDatabase = async () => {
@@ -22,6 +30,7 @@ function App() {
         }
         
         setItems(data || []);
+        setFilteredItems(data || []);
         setDbStatus({
           checked: true,
           success: true,
@@ -41,6 +50,74 @@ function App() {
 
     checkDatabase();
   }, []);
+
+  // Apply filters when search parameters change
+  useEffect(() => {
+    filterItems();
+  }, [searchParams, items]);
+
+  // Filter items based on search parameters
+  const filterItems = () => {
+    let filtered = [...items];
+    
+    // Apply search query
+    if (searchParams.searchQuery) {
+      const query = searchParams.searchQuery.toLowerCase();
+      filtered = filtered.filter(item => 
+        (item.item_name && item.item_name.toLowerCase().includes(query)) || 
+        (item.description && item.description.toLowerCase().includes(query)) ||
+        (item.location && item.location.toLowerCase().includes(query))
+      );
+    }
+    
+    // Apply category filter
+    if (searchParams.category) {
+      filtered = filtered.filter(item => item.category === searchParams.category);
+    }
+    
+    // Apply location filter
+    if (searchParams.location) {
+      const locationQuery = searchParams.location.toLowerCase();
+      filtered = filtered.filter(item => 
+        item.location && item.location.toLowerCase().includes(locationQuery)
+      );
+    }
+    
+    // Apply date filters
+    if (searchParams.dateFrom) {
+      filtered = filtered.filter(item => 
+        item.date && new Date(item.date) >= new Date(searchParams.dateFrom)
+      );
+    }
+    
+    if (searchParams.dateTo) {
+      filtered = filtered.filter(item => 
+        item.date && new Date(item.date) <= new Date(searchParams.dateTo)
+      );
+    }
+    
+    setFilteredItems(filtered);
+  };
+
+  // Handle search parameter changes
+  const handleSearchChange = (e) => {
+    const { name, value } = e.target;
+    setSearchParams(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Clear all filters
+  const clearFilters = () => {
+    setSearchParams({
+      searchQuery: '',
+      category: '',
+      dateFrom: '',
+      dateTo: '',
+      location: ''
+    });
+  };
 
   if (loading) {
     return (
@@ -104,9 +181,93 @@ function App() {
         </div>
       </div>
       
-      <ImageGallery items={items} />
+      {/* Unified Search Section */}
+      <div className="unified-search-container">
+        <h2 className="search-title">Find Lost Items</h2>
+        
+        <div className="search-bar">
+          <input
+            type="text"
+            name="searchQuery"
+            value={searchParams.searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Search by item name, description, or location..."
+            className="search-input"
+          />
+        </div>
+        
+        <div className="filters">
+          <div className="filter-row">
+            <div className="filter-group">
+              <select
+                name="category"
+                value={searchParams.category}
+                onChange={handleSearchChange}
+                className="category-select"
+              >
+                <option value="">All Categories</option>
+                <option value="electronics">Electronics</option>
+                <option value="accessories">Accessories</option>
+                <option value="books">Books</option>
+                <option value="clothing">Clothing</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div className="filter-group">
+              <input
+                type="text"
+                name="location"
+                value={searchParams.location}
+                onChange={handleSearchChange}
+                placeholder="Filter by location"
+                className="location-input"
+              />
+            </div>
+          </div>
+          
+          <div className="filter-row">
+            <div className="filter-group date-filter">
+              <label>From:</label>
+              <input
+                type="date"
+                name="dateFrom"
+                value={searchParams.dateFrom}
+                onChange={handleSearchChange}
+              />
+            </div>
+            
+            <div className="filter-group date-filter">
+              <label>To:</label>
+              <input
+                type="date"
+                name="dateTo"
+                value={searchParams.dateTo}
+                onChange={handleSearchChange}
+              />
+            </div>
+            
+            {(searchParams.searchQuery || searchParams.category || searchParams.location || searchParams.dateFrom || searchParams.dateTo) && (
+              <button 
+                className="clear-filters-button"
+                onClick={clearFilters}
+              >
+                Clear Filters
+              </button>
+            )}
+          </div>
+        </div>
+        
+        <div className="search-results-info">
+          <p>Found {filteredItems.length} items</p>
+        </div>
+      </div>
       
-      <LostItemsTable items={items} />
+      {/* Image Gallery */}
+      <ImageGallery items={filteredItems} />
+      
+      {/* Items Table */}
+      <LostItemsTable items={filteredItems} />
     </div>
   );
 }
